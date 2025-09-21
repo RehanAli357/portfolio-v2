@@ -3,6 +3,10 @@ import React, { useEffect, useRef, useCallback, useMemo } from "react";
 import "./ProfileCard.css";
 import Image from "next/image";
 import avatarImg from "../../public/user.png";
+
+interface DeviceMotionEventWithPermission extends DeviceMotionEvent {
+  requestPermission?: () => Promise<"granted" | "denied">;
+}
 const DEFAULT_BEHIND_GRADIENT =
   "radial-gradient(farthest-side circle at var(--pointer-x) var(--pointer-y),hsla(266,100%,90%,var(--card-opacity)) 4%,hsla(266,50%,80%,calc(var(--card-opacity)*0.75)) 10%,hsla(266,25%,70%,calc(var(--card-opacity)*0.5)) 50%,hsla(266,0%,60%,0) 100%),radial-gradient(35% 52% at 55% 20%,#00ffaac4 0%,#073aff00 100%),radial-gradient(100% 100% at 50% 50%,#00c1ffff 1%,#073aff00 76%),conic-gradient(from 124deg at 50% 50%,#c137ffff 0%,#07c6ffff 40%,#07c6ffff 60%,#c137ffff 100%)";
 
@@ -17,14 +21,23 @@ const ANIMATION_CONFIG = {
   DEVICE_BETA_OFFSET: 20,
 };
 
-const clamp = (value, min = 0, max = 100) =>
+// Clamp a number between min and max
+const clamp = (value: number, min: number = 0, max: number = 100): number =>
   Math.min(Math.max(value, min), max);
 
-const round = (value, precision = 3) =>
+// Round a number to a given precision
+const round = (value: number, precision: number = 3): number =>
   parseFloat(Number(value).toFixed(precision));
 
-const adjust = (value, fromMin, fromMax, toMin, toMax) =>
-  round(toMin + ((toMax - toMin) * (value - fromMin)) / (fromMax - fromMin));
+// Adjust a value from one range to another
+const adjust = (
+  value: number,
+  fromMin: number,
+  fromMax: number,
+  toMin: number,
+  toMax: number
+): number => round(toMin + ((toMax - toMin) * (value - fromMin)) / (fromMax - fromMin));
+
 
 const easeInOutCubic = (x: number) =>
   x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
@@ -275,14 +288,23 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 
     const handleClick = () => {
       if (!enableMobileTilt || location.protocol !== "https:") return;
+
+      const deviceMotion = window.DeviceMotionEvent as
+        | typeof DeviceMotionEvent
+        | undefined;
+
+      // Type check if requestPermission exists
       if (
-        typeof window.DeviceMotionEvent !== "undefined" &&
-        typeof (window.DeviceMotionEvent as any).requestPermission ===
-          "function"
+        deviceMotion &&
+        typeof (deviceMotion as unknown as DeviceMotionEventWithPermission)
+          .requestPermission === "function"
       ) {
-        (window.DeviceMotionEvent as any)
-          .requestPermission()
-          .then((state: string) => {
+        const requestPermissionFn = (
+          deviceMotion as unknown as DeviceMotionEventWithPermission
+        ).requestPermission!;
+
+        requestPermissionFn()
+          .then((state) => {
             if (state === "granted") {
               window.addEventListener(
                 "deviceorientation",
@@ -290,7 +312,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
               );
             }
           })
-          .catch((err: any) => console.error(err));
+          .catch((err: unknown) => console.error(err));
       } else {
         window.addEventListener("deviceorientation", deviceOrientationHandler);
       }
@@ -323,15 +345,16 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     };
   }, [enableTilt, enableMobileTilt, animationHandlers, mobileTiltSensitivity]);
 
-  const cardStyle = useMemo(
-    () => ({
-      "--icon": iconUrl ? `url(${iconUrl})` : "none",
-      "--grain": grainUrl ? `url(${grainUrl})` : "none",
-      "--behind-gradient": showBehindGradient
-        ? behindGradient ?? DEFAULT_BEHIND_GRADIENT
-        : "none",
-      "--inner-gradient": innerGradient ?? DEFAULT_INNER_GRADIENT,
-    }),
+  const cardStyle = useMemo<React.CSSProperties>(
+    () =>
+      ({
+        "--icon": iconUrl ? `url(${iconUrl})` : "none",
+        "--grain": grainUrl ? `url(${grainUrl})` : "none",
+        "--behind-gradient": showBehindGradient
+          ? behindGradient ?? DEFAULT_BEHIND_GRADIENT
+          : "none",
+        "--inner-gradient": innerGradient ?? DEFAULT_INNER_GRADIENT,
+      } as React.CSSProperties),
     [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient]
   );
 
