@@ -1,7 +1,7 @@
 'use client';
 import React, { useRef } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 import Skill1 from "@/public/javascript.svg";
 import Skill2 from "@/public/typescript.svg";
 import Skill3 from "@/public/react.svg";
@@ -47,7 +47,7 @@ const containerVariants = {
   },
 };
 
-const iconVariants = {
+const iconVariants:Variants = {
   hidden: { opacity: 0, y: 30, scale: 0.8 },
   visible: (idx: number) => ({
     opacity: 1,
