@@ -1,6 +1,6 @@
 "use client";
 
-import { motion ,Variants} from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 const experiences = [
   {
@@ -35,15 +35,14 @@ const containerVariants = {
   },
 };
 
-const itemVariants:Variants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0, transition: { type: "spring", duration: 0.7 } },
 };
 
 const WorkExperienceSection = () => {
   return (
-    <section className="w-full py-12 flex flex-col items-center relative ">
-      <div className="inset-0 -z-10 bg-gradient-to-b from-black via-gray-900 to-black backdrop-blur-md relative"></div>
+    <section className=" relative w-full py-16 px-5 bg-gradient-to-b from-black via-gray-900 to-black flex flex-col items-center">
       <motion.h2
         initial={{ opacity: 0, y: -30 }}
         whileInView={{ opacity: 1, y: 0 }}
