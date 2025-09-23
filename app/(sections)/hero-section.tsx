@@ -51,16 +51,18 @@ const HeroSection = () => {
         >
           Full Stack Developer
         </h2>
-        <StarBorder
-          as={"button"}
-          className="mt-8 px-8 py-3 text-base sm:text-lg opacity-0 animate-fade-in"
-          color="white"
-          speed="1.5s"
-          thickness={1}
-          style={{ animationDelay: "1s" }}
-        >
-          About me
-        </StarBorder>
+        <a href="#about">
+          <StarBorder
+            as={"button"}
+            className="mt-8 px-8 py-3 text-base sm:text-lg opacity-0 animate-fade-in"
+            color="white"
+            speed="1.5s"
+            thickness={1}
+            style={{ animationDelay: "1s" }}
+          >
+            About me
+          </StarBorder>
+        </a>
       </div>
       {/* Orb Background */}
       <div className="w-full h-full absolute top-0 left-0 pointer-events-none">

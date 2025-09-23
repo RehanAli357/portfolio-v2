@@ -31,6 +31,7 @@ const AboutSection = () => {
 
   return (
     <div
+    id="about"
       ref={sectionRef}
       className={`flex flex-col-reverse md:flex-row justify-center items-center py-12 px-4 gap-8 md:gap-0 relative min-h-screen bg-black font-sans transition-all duration-1000
       ${
