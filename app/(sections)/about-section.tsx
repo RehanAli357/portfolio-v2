@@ -33,7 +33,11 @@ const AboutSection = () => {
     <div
       ref={sectionRef}
       className={`flex flex-col-reverse md:flex-row justify-center items-center py-12 px-4 gap-8 md:gap-0 relative min-h-screen bg-black font-sans transition-all duration-1000
-      ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"}
+      ${
+        isVisible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-10 pointer-events-none"
+      }
     `}
       style={{
         overflow: "hidden",
@@ -95,7 +99,7 @@ const AboutSection = () => {
         </div>
       </div>
       <div className="w-full md:w-1/2 flex justify-center">
-        <div className="max-w-xs w-full flex justify-center relative z-10" >
+        <div className="max-w-xs w-full flex justify-center relative z-10">
           <ProfileCard
             name="Mohd. Rehan Ali"
             title="Full Stack Developer"
@@ -106,7 +110,9 @@ const AboutSection = () => {
             showUserInfo={true}
             enableTilt={true}
             enableMobileTilt={false}
-            onContactClick={() => console.log("Contact clicked")}
+            onContactClick={() => {
+              window.open("https://wa.me/7017337726", "_blank");
+            }}
           />
         </div>
       </div>

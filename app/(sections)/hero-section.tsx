@@ -9,7 +9,7 @@ const HeroSection = () => {
   return (
     <div className="sticky inset-0 h-screen z-0 overflow-hidden flex items-center justify-center">
       {/* Social Icons */}
-      <div className="flex gap-3 mt-2 justify-end pr-2 absolute top-4 right-0 z-10">
+      <div className="flex gap-3 mt-2 justify-end pr-2 absolute top-4 right-0 z-11">
         <a
           href="https://github.com/RehanAli357"
           target="_blank"
