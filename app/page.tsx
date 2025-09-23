@@ -1,4 +1,5 @@
 import AboutSection from "./(sections)/about-section";
+import ContactMeSection from "./(sections)/contact-me-section";
 import HeroSection from "./(sections)/hero-section";
 import ProjectSection from "./(sections)/project-section";
 import SkillsSection from "./(sections)/skills-section";
@@ -13,6 +14,7 @@ const Home = () => {
         <SkillsSection />
         <ProjectSection />
         <WorkExperienceSection/>
+        <ContactMeSection/>
     </div>
   );
 };
